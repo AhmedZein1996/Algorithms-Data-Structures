@@ -3,11 +3,11 @@
 import 'dart:math';
 
 void main() {
-  List data = generateMassiveDataset();
+  List data = [9, 5, 7, 4];
 
   Stopwatch stopwatch = Stopwatch()..start();
 
-  merageSort(data, 0, data.length - 1);
+  mergeSort(data, 0, data.length - 1, 0);
 
   stopwatch.stop();
 
@@ -15,22 +15,30 @@ void main() {
 //  print('sorted data = $data');
 }
 
-// merageSort
+// mergeSort
 // inputs array, start, end
-merageSort(List x, int start, int end) {
-  if (end <= start) return;
+mergeSort(List x, int start, int end, int flag) {
+  print('flag is $flag');
+  if (end <= start) {
+    print('return end($end), start($start)');
+    return;
+  }
 
   int mid = ((end + start) / 2).floor();
 
-  merageSort(x, start, mid);
-  merageSort(x, mid + 1, end);
+  print('mergeSort x($x) start($start), mid($mid)');
+  mergeSort(x, start, mid, 1);
 
-  merage(x, start, mid, end);
+  print('mergeSort x($x) mid + 1(${mid + 1}), end($end)');
+  mergeSort(x, mid + 1, end, 2);
+
+  print('merge x($x) start($start), mid($mid), end($end)');
+  merge(x, start, mid, end);
 }
 
-// merage
+// merge
 // inputs array, start, end, midpoint
-merage(List x, int start, int mid, int end) {
+merge(List x, int start, int mid, int end) {
   int leftArrayLength = mid + 1 - start;
   int rightArrayLength = end - mid;
 
@@ -60,6 +68,23 @@ merage(List x, int start, int mid, int end) {
     k++;
   }
 
+  // leftArrayLength = 2, rightArrayLength = 2
+  // i = 0, j = 0, k = 0
+  // x ([5, 9, 4, 7])
+  // left [5, 9], right [4, 7]
+  // x [4, 9, 4, 7]
+  // i = 0, j = 1, k = 1
+  // x [4, 5, 4, 7]
+  // i = 1, j = 1, k = 2
+  // x [4, 5, 7, 7]
+  // i = 1, j = 2, k = 3
+
+  // exit while (i < leftArrayLength && j < rightArrayLength) j not lower than rightArrayLength
+
+  // x [4, 5, 7, 9]
+
+  print('merge after while (i < leftArrayLength && j < rightArrayLength)  x ($x)');
+
   while (i < leftArrayLength) {
     x[k] = leftArray[i];
     i++;
@@ -71,6 +96,7 @@ merage(List x, int start, int mid, int end) {
     j++;
     k++;
   }
+  print('merge x ($x)');
 }
 
 // Generate 1000 random integers between 1 and 1000
@@ -96,6 +122,11 @@ List<int> generateVeryLargeDataset() {
 // Generate 10,000,000 random integers between 1 and 10,000,000
 List<int> generateMassiveDataset() {
   return List<int>.generate(10000000, (_) => Random().nextInt(10000000) + 1);
+}
+
+// Generate 100,000,000 random integers between 1 and 100,000,000
+List<int> generateVeryMassiveDataset() {
+  return List<int>.generate(100000000, (_) => Random().nextInt(10000000) + 1);
 }
 
 // Generate 1,000,000,000 random integers between 1 and 1,000,000,000
