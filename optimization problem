@@ -51,7 +51,7 @@ The price x = 1.25 is the price that maximizes profit.
 Results:
 From the calculation, the optimal price x = 1.25 gives:
 
-Maximum Profit P(1.25): $3625 (as shown in the table in the image)
+Maximum Profit P(1.25): $3625 as shown in the table in the image(optimization problem.png)
 Quantity sold n(1.25): 7500 units
 
 Therefore, the company should set the price to $1.25 to maximize profit, which results in a profit of $3625 and a quantity of 7500 units sold.
