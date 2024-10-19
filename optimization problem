@@ -1,0 +1,57 @@
+Problem Summary:
+1. Objective: Find the optimal price 𝑥 that maximizes profit P(x).
+2. Variables:
+x = price of the product
+P(x) = profit function
+n(x) = quantity sold at price x
+Fixed cost = $2000
+Variable cost per unit = $0.50
+
+3. Quantity Sold:
+At a price of $1.50, the company sells 5000 units.
+For every decrease of $0.10 in price, the quantity sold increases by 1000 units.
+The function for the number of units sold n(x) is given as:
+if current(x) = base(x) - n * y , which y = .10 , n > 0 , base(x) = 1.5, current(x) = x
+then IU = n * 1000
+
+n * y = base(x) - current(x)
+n = (base(x) - current(x)) / y
+
+IU = 1000 * (base(x) - current(x)) / y
+IU = 1000 * (1.5 - x) / .10
+
+n(x)=5000 + IU
+n(x)=5000 + 1000 * (1.5 - x) / .10
+
+4. Profit Function: The profit function is defined as:
+P(x)=n(x)⋅x−(0.50⋅n(x)+2000)
+
+Substituting n(x) into P(x):
+
+P(x) = (5000 + 1000(1.5 - x)/0.10)x - (0.50(5000 + 1000(1.5 - x)/0.10) + 2000)
+
+Simplifying the profit function leads to:
+
+P(x) = -10000x^2 + 25000x - 12000
+
+The domain for x is given as x ∈ [0, 1.5].
+
+5. Optimization:
+
+To find the maximum profit, we take the derivative of P(x) and solve for x.
+The derivative of P(x) is:
+P'(x) = -20000x + 25000
+
+Setting P'(x) = 0 to find the critical point:
+-20000x + 25000 = 0
+x = 25000/20000 = 1.25
+
+The price x = 1.25 is the price that maximizes profit.
+
+Results:
+From the calculation, the optimal price x = 1.25 gives:
+
+Maximum Profit P(1.25): $3625 (as shown in the table in the image)
+Quantity sold n(1.25): 7500 units
+
+Therefore, the company should set the price to $1.25 to maximize profit, which results in a profit of $3625 and a quantity of 7500 units sold.
