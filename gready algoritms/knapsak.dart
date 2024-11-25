@@ -1,5 +1,3 @@
-
-
 class Item {
   final String name;
   final double weight;
@@ -7,15 +5,6 @@ class Item {
   double ratio;
 
   Item({required this.name, required this.weight, required this.profit}) : ratio = profit / weight;
-
-  Map toJson() {
-    return {
-      'name': name,
-      'weight': weight,
-      'profit': profit,
-      'ratio': ratio,
-    };
-  }
 }
 
 class Knapsak {
@@ -54,11 +43,9 @@ List<Item> items = [
 void main() async {
   final bag = Knapsak(currentSpace: 0, totalProfit: 0, totalWeight: 0, maxSpace: 12);
 
-  final sortedByRatio = mergeSort(items);
+  final sortedItemsByRatio = mergeSort(items);
 
-  print('sorted items by ratio ${sortedByRatio.map((item) => item.toJson()).toList()}');
-
-  for (final item in sortedByRatio) {
+  for (final item in sortedItemsByRatio) {
     if (item.weight <= bag.maxSpace - bag.currentSpace) {
       bag.addItem(item);
     } else {
@@ -72,11 +59,16 @@ void main() async {
     }
   }
 
-  print('bag currentSpace ${bag.currentSpace}');
-  print('bag totalProfit ${bag.totalProfit}');
-  print('bag totalWeight ${bag.totalWeight}');
+  print('Bag currentSpace ${bag.currentSpace}');
+  print('Bag totalProfit ${bag.totalProfit}');
+  print('Bag totalWeight ${bag.totalWeight}');
 
-  print('bag Items ${bag.bagItems.map((item) => item.toJson()).toList()}');
+  print('-------------------- Bag items --------------------');
+  for (final item in bag.bagItems) {
+    print(
+        '${item.name} - Weight: ${item.weight} - Profit: ${item.profit.toStringAsFixed(2)} - Ratio: ${item.ratio.toStringAsFixed(2)}');
+  }
+  print('---------------------------------------------------');
 }
 
 List<Item> mergeSort(List<Item> x) {
