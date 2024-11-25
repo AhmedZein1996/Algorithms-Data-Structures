@@ -23,21 +23,29 @@ class Knapsak {
   List<Item> bagItems = [];
 
   addItem(Item item) {
-    bagItems.add(item);
-    currentSpace += item.weight;
-    totalProfit += item.profit;
-    totalWeight += item.weight;
+    // Check if the item fits entirely or needs to be added fractionally
+    final isFractional = item.weight > maxSpace - currentSpace;
+    final double weightToAdd = isFractional ? maxSpace - currentSpace : item.weight;
+    final double profitToAdd = item.ratio * weightToAdd;
+
+    // Create the new item (full or fractional)
+    final newItem = Item(name: item.name, weight: weightToAdd, profit: profitToAdd);
+
+    // Add the item to the knapsack
+    bagItems.add(newItem);
+    currentSpace += newItem.weight;
+    totalProfit += newItem.profit;
+    totalWeight += newItem.weight;
   }
 }
 
 List<Item> items = [
-  Item(name: 'item1', weight: 10, profit: 20),
-  Item(name: 'item2', weight: 1, profit: 1),
-  Item(name: 'item3', weight: 5, profit: 2),
-  Item(name: 'item4', weight: 4, profit: 1),
-  Item(name: 'item5', weight: 3, profit: 9),
-  Item(name: 'item6', weight: 2, profit: 12),
-  Item(name: 'item7', weight: 8, profit: 12),
+  Item(name: 'item1', weight: 1, profit: 4),
+  Item(name: 'item2', weight: 2, profit: 9),
+  Item(name: 'item3', weight: 10, profit: 12),
+  Item(name: 'item4', weight: 4, profit: 11),
+  Item(name: 'item5', weight: 3, profit: 6),
+  Item(name: 'item6', weight: 5, profit: 5),
 ];
 
 void main() async {
@@ -45,18 +53,10 @@ void main() async {
 
   final sortedItemsByRatio = mergeSort(items);
 
-  for (final item in sortedItemsByRatio) {
-    if (item.weight <= bag.maxSpace - bag.currentSpace) {
-      bag.addItem(item);
-    } else {
-      final fractionalWeight = bag.maxSpace - bag.currentSpace;
-      final fractionalProfit = item.ratio * fractionalWeight;
-
-      final fractionalItem = Item(name: item.name, weight: fractionalWeight, profit: fractionalProfit);
-
-      bag.addItem(fractionalItem);
-      break;
-    }
+  int j = 0;
+  while (bag.currentSpace < bag.maxSpace) {
+    bag.addItem(sortedItemsByRatio[j]);
+    j++;
   }
 
   print('Bag currentSpace ${bag.currentSpace}');
