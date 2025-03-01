@@ -60,6 +60,9 @@ class HashTable<K, V> {
       entries[hash] = newKeyValuePair;
       entriesCount++;
     } else if (entries[hash]!.key == key) {
+      if (entries[hash]!.value == null) {
+        entriesCount++;
+      }
       entries[hash]!.value = value;
     } else {
       throw Exception('No space in hash table');
@@ -122,7 +125,7 @@ class HashTable<K, V> {
     int index = _hash(key);
 
     // Handle collision if key does not match
-    if (entries[index] == null || entries[index]?.key != key) {
+    if (entries[index] != null && entries[index]?.key != key) {
       index = _collisionHandling(key, index, forSet: false);
     }
 
@@ -132,16 +135,15 @@ class HashTable<K, V> {
   void remove(K key) {
     int index = _hash(key);
 
-    // Handle collision if key does not match
-    if (entries[index] == null || entries[index]?.key != key) {
+    if (entries[index] != null && entries[index]!.key != key) {
       index = _collisionHandling(key, index, forSet: false);
     }
 
     // If key not found, return
     if (index == -1 || entries[index] == null || entries[index]!.key != key) return;
 
-    // Remove entry and decrease count
-    entries[index] = null;
+    // Mark as deleted instead of setting null (soft delete)
+    entries[index]!.value = null;
     entriesCount--;
   }
 
@@ -181,7 +183,7 @@ void main() {
   print('[get] ${hashTable.get('Sinar')}');
   print('[get] ${hashTable.get('Tane')}');
 
-  print('[remove]');
+  print('[remove] Sinar');
 
   hashTable.remove('Sinar');
 
@@ -193,15 +195,19 @@ void main() {
   print('[get] ${hashTable.get('Gerti')}');
   print('[get] ${hashTable.get('Artist')}');
 
-  print('[remove]');
+  print('[remove] Elvis');
 
   hashTable.remove('Elvis');
 
   hashTable.printTable();
 
-  print('[get] ${hashTable.get('Sinar')}');
-  print('[get] ${hashTable.get('Elvis')}');
-  print('[get] ${hashTable.get('Tane')}');
-  print('[get] ${hashTable.get('Gerti')}');
-  print('[get] ${hashTable.get('Artist')}');
+  print('[get] Sinar ${hashTable.get('Sinar')}');
+  print('[get] Elvis ${hashTable.get('Elvis')}');
+  print('[get] Tane ${hashTable.get('Tane')}');
+  print('[get] Gerti ${hashTable.get('Gerti')}');
+  print('[get] Artist ${hashTable.get('Artist')}');
+
+  hashTable.set('Sinar', 'Sinar2@gmail.com');
+
+  hashTable.printTable();
 }
